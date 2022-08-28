@@ -1,4 +1,5 @@
 from django.db import models
+from supers.models import Super
 
 # Create your models here.
 
