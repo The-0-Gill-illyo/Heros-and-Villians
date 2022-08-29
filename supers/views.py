@@ -1,10 +1,9 @@
 from django.shortcuts import get_object_or_404
 from rest_framework.decorators import api_view
-from rest_framework import status
 from rest_framework.response import Response
+from rest_framework import status
 from .serializer import SuperSerializer
 from .models import Super
-from supers import serializer
 
 # Create your views here.
 
@@ -12,8 +11,12 @@ from supers import serializer
 
 def supers_list(request):    
     if request.method == 'GET':
-        supers = Super.objects.all()
-        serializer = SuperSerializer(supers, many=True)
+        type_name = request.query_params.get('type')
+        print(type_name)
+        queryset = Super.objects.all()
+        # if type_name:
+        #     queryset = queryset.filter(type__name=type_name)
+        serializer = SuperSerializer(queryset, many=True)
         return Response(serializer.data)
     elif request.method == 'POST':
         serializer = SuperSerializer(data=request.data)
